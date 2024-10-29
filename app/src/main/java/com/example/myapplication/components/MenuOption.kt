@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 
 
@@ -39,7 +40,7 @@ fun MenuOption(screen: String, navController: NavHostController, color: Color, i
                 contentDescription = iconDescription
             )
             Spacer(modifier = Modifier.size(10.dp))
-            Text(text, color = Color(0xFFFFFFFF), fontWeight = FontWeight.Bold)
+            Text(text, color = Color(0xFFFFFFFF), fontWeight = FontWeight.Bold, fontSize = 20.sp)
         }
     }
 }

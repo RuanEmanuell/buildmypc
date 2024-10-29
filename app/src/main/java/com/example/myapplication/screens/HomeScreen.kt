@@ -36,7 +36,7 @@ fun HomeScreen(navController: NavHostController) {
                 Icons.Rounded.Build,
                 "Montar PC",
                 "Build PC")
-            Spacer(modifier = Modifier.size(20.dp))
+            Spacer(modifier = Modifier.size(30.dp))
             MenuOption(
                 "build",
                 navController,
@@ -45,7 +45,7 @@ fun HomeScreen(navController: NavHostController) {
                 "Visualizar Montagens",
                 "Search Builds"
             )
-            Spacer(modifier = Modifier.size(20.dp))
+            Spacer(modifier = Modifier.size(30.dp))
             MenuOption(
                 "build",
                 navController,
