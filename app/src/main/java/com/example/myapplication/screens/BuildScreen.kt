@@ -1,5 +1,6 @@
 package com.example.myapplication.screens
 
+import android.database.sqlite.SQLiteDatabase
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,9 +27,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.myapplication.AppBar
+import com.example.myapplication.data.DatabaseConnection
 
 @Composable
-fun BuildScreen(navController: NavHostController) {
+fun BuildScreen(navController: NavHostController, databaseConnection: DatabaseConnection, db: SQLiteDatabase) {
     var expanded by remember { mutableStateOf(false)}
     var model by remember { mutableStateOf(0)}
 

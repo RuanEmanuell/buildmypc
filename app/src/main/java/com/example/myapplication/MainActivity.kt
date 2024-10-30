@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -23,17 +24,17 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
                 val navController = rememberNavController()
-                SetupNavHost(navController = navController)
+                SetupNavHost(navController, databaseConnection, db)
             }
         }
     }
 
 @Composable
-fun SetupNavHost(navController:NavHostController){
+fun SetupNavHost(navController:NavHostController, databaseConnection: DatabaseConnection, db: SQLiteDatabase){
     NavHost(navController = navController, startDestination = "home"){
         composable("home") {HomeScreen(navController)}
-        composable("build") { BuildScreen(navController) }
-        composable("pc") { ComputerScreen(navController) }
+        composable("build") { BuildScreen(navController, databaseConnection, db) }
+        composable("pc") { ComputerScreen(navController, databaseConnection, db) }
     }
 }
 

@@ -1,9 +1,11 @@
 package com.example.myapplication.data
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
+import com.example.myapplication.model.Computador
 
 class DatabaseConnection(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -51,5 +53,18 @@ class DatabaseConnection(context: Context) : SQLiteOpenHelper(context, DATABASE_
         db.execSQL("DROP TABLE IF EXISTS CLIENTE")
         db.execSQL("DROP TABLE IF EXISTS COMPUTADOR")
         onCreate(db)
+    }
+
+    fun insertPC(computador: Computador, db: SQLiteDatabase){
+        val contentValues = ContentValues().apply {
+            put("cpu", computador.cpu)
+            put("gpu", computador.gpu)
+            put("ram", computador.ram)
+            put("ssd", computador.ssd)
+            put("valor", computador.valor)
+            put("clienteCpf", computador.clienteCpf)
+        }
+
+        db.insert("CLIENTE", null, contentValues)
     }
 }

@@ -66,4 +66,5 @@ fun PcPart(partList: List<String>, selectedPart: MutableState<Int>, dropdownExpa
             )
         }
     }
+    Spacer(modifier = Modifier.height(15.dp))
 }
