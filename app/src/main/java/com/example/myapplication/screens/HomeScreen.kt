@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Build
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.Search
@@ -44,6 +45,15 @@ fun HomeScreen(navController: NavHostController) {
                 Icons.Rounded.Search,
                 "Visualizar Montagens",
                 "Search Builds"
+            )
+            Spacer(modifier = Modifier.size(30.dp))
+            MenuOption(
+                "build",
+                navController,
+                Color(0XFFF51800),
+                Icons.Rounded.Add,
+                "Cadastrar Modelos de PC",
+                "Register PC models"
             )
             Spacer(modifier = Modifier.size(30.dp))
             MenuOption(

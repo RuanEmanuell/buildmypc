@@ -15,7 +15,7 @@ class DatabaseConnection(context: Context) : SQLiteOpenHelper(context, DATABASE_
     override fun onCreate(db: SQLiteDatabase) {
         try {
             db.execSQL(
-                "CREATE TABLE IF NOT EXISTS CLIENTE (" +
+                "CREATE TABLE IF NOT EXISTS CLIENTES (" +
                         "cpf TEXT PRIMARY KEY, " +
                         "nome TEXT NOT NULL, " +
                         "email TEXT, " +
@@ -23,13 +23,24 @@ class DatabaseConnection(context: Context) : SQLiteOpenHelper(context, DATABASE_
             )
 
             db.execSQL(
-                "CREATE TABLE IF NOT EXISTS COMPUTADOR (" +
+                "CREATE TABLE IF NOT EXISTS COMPUTADORES (" +
                         "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                        "modelo TEXT NOT NULL, " +
+                        "cpu TEXT NOT NULL, " +
+                        "gpu TEXT NOT NULL, " +
                         "ram REAL NOT NULL, " +
+                        "ssd TEXT NOT NULL, " +
                         "valor REAL NOT NULL, " +
-                        "fk_cpf TEXT, " +
-                        "FOREIGN KEY(fk_cpf) REFERENCES CLIENTE(cpf))"
+                        "clienteCpf TEXT, " +
+                        "FOREIGN KEY(clienteCpf) REFERENCES CLIENTES(cpf))"
+            )
+
+            db.execSQL(
+                "CREATE TABLE IF NOT EXISTS MONTAGENS (" +
+                        "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        "modeloId INTEGER, " +
+                        "clienteCpf TEXT, " +
+                        "FOREIGN KEY(modeloId) REFERENCES COMPUTADORES(modeloId), " +
+                        "FOREIGN KEY(clienteCpf) REFERENCES CLIENTES(cpf))"
             )
         } catch (e: Exception) {
             Log.e("DatabaseHelper", "Erro ao criar as tabelas: ${e.message}")
