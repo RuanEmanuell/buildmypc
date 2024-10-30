@@ -30,7 +30,7 @@ fun ComputerScreen(navController: NavHostController) {
 
     val gpuList = listOf("Geforce GTX 1650", "Geforce GTX 1660", "Geforce RTX 3050", "Geforce RTX 3060",
         "Geforce RTX 4060", "Geforce RTX 4070", "Geforce RTX 4070 SUPER", "Geforce RTX 4080", "Geforce RTX 4080 SUPER", "Geforce RTX 4090", "Radeon RX 6400",
-        "Radeon RX 6500XT", "Radeon RX 6600", "Radeon RX 6650XT",  "Radeon RX 7600", "Radeon RX 7700 XT", "Radeon RX 7800 XT", "Radeon RX 7900XT", "Radeon RTX 7900XTX")
+        "Radeon RX 6500XT", "Radeon RX 6600", "Radeon RX 6650XT",  "Radeon RX 7600", "Radeon RX 7700 XT", "Radeon RX 7800 XT", "Radeon RX 7900XT", "Radeon RX 7900XTX")
 
     Scaffold(
         topBar = { AppBar("Registrar novo PC", true, navController) },
@@ -45,9 +45,12 @@ fun ComputerScreen(navController: NavHostController) {
                 modifier = Modifier.padding(20.dp).fillMaxSize()
             ) {
                 PcPart(cpuList, selectedCpuIndex, cpuDropdownExpanded, "Processador:",
-                    "Selecione um processador", R.drawable.intel)
+                    "Selecione um processador",
+                    if(cpuList[selectedCpuIndex.value].substring(0, 5) == "Intel") R.drawable.intel else R.drawable.amd)
+
                 PcPart(gpuList, selectedGpuIndex, gpuDropdownExpanded, "Placa de vídeo:",
-                    "Selecione uma placa de vídeo", R.drawable.geforce)
+                    "Selecione uma placa de vídeo",
+                    if(gpuList[selectedGpuIndex.value].substring(0, 7) == "Geforce") R.drawable.geforce else R.drawable.radeon)
             }
                 }
             }
