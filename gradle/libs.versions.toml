@@ -1,5 +1,6 @@
 [versions]
 agp = "8.6.0"
+androidDriver = "1.5.5"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -10,8 +11,10 @@ activityCompose = "1.9.3"
 composeBom = "2024.04.01"
 navigationRuntimeKtx = "2.8.3"
 navigationCompose = "2.8.3"
+sqliteBundledAndroid = "2.5.0-alpha10"
 
 [libraries]
+android-driver = { module = "com.squareup.sqldelight:android-driver", version.ref = "androidDriver" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -28,6 +31,9 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
+sqlite = { module = "libs.androidx.sqlite:sqlite" }
+sqlite-bundled = { module = "libs.sqlite:sqlite-bundled" }
+androidx-sqlite-bundled-android = { group = "androidx.sqlite", name = "sqlite-bundled-android", version.ref = "sqliteBundledAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
