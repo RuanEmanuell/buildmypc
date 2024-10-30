@@ -23,7 +23,7 @@ fun AppBar(title: String, goBackButtonVisible: Boolean, navController: NavHostCo
             titleContentColor = Color(0xFFFFFFFF)
         ),
         title = {
-            Text(title, fontSize = 30.sp, fontWeight = FontWeight.Bold)
+            Text(title, fontSize = 25.sp, fontWeight = FontWeight.Bold)
         },
         navigationIcon = {
             if (goBackButtonVisible) {

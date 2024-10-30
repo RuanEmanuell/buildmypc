@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.data.DatabaseConnection
 import com.example.myapplication.screens.BuildScreen
+import com.example.myapplication.screens.ComputerScreen
 
 
 class MainActivity : ComponentActivity() {
@@ -32,6 +33,7 @@ fun SetupNavHost(navController:NavHostController){
     NavHost(navController = navController, startDestination = "home"){
         composable("home") {HomeScreen(navController)}
         composable("build") { BuildScreen(navController) }
+        composable("pc") { ComputerScreen(navController) }
     }
 }
 
