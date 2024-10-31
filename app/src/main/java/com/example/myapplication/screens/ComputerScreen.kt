@@ -55,16 +55,15 @@ fun ComputerScreen(navController: NavHostController, databaseConnection: Databas
         "Radeon RX 6500XT", "Radeon RX 6600", "Radeon RX 6650XT",  "Radeon RX 7600", "Radeon RX 7700 XT", "Radeon RX 7800 XT", "Radeon RX 7900XT", "Radeon RX 7900XTX")
 
     val ramList = listOf("4GB", "8GB", "16GB", "24GB", "32GB", "48GB", "64GB")
-    val ssdList = listOf("120GB", "240GB", "512GB", "1TB", "2TB")
+    val ssdList = listOf("120GB", "240GB", "480GB", "960GB")
 
     fun createPC(){
         val cpu = cpuList[selectedCpuIndex.value]
         val gpu = gpuList[selectedGpuIndex.value]
         val ram = ramList[selectedRamIndex.value].substring(0, ramList[selectedRamIndex.value].length - 2).toFloat()
-        val ssd = ssdList[selectedRamIndex.value].substring(0, ramList[selectedSsdIndex.value].length - 2).toFloat()
+        val ssd = ssdList[selectedSsdIndex.value].substring(0, ssdList[selectedSsdIndex.value].length - 2).toFloat()
 
-
-        val computer = Computador(cpu, gpu, ram, ssd, 3000.0F, "12345678910")
+        val computer = Computador(0, cpu, gpu, ram, ssd, 3000.0F, "12345678910")
 
         try {
             databaseConnection.insertPC(computer, db)
@@ -102,7 +101,7 @@ fun ComputerScreen(navController: NavHostController, databaseConnection: Databas
                     R.drawable.ram)
 
                 PcPart(ssdList, selectedSsdIndex, ssdDropdownExpanded, "SSD:",
-                    "Selecione um espaço de SSD",
+                    "Selecione um armazenamento de SSD",
                     R.drawable.ssd)
 
                 Button(modifier = Modifier.padding(20.dp).fillMaxWidth(),

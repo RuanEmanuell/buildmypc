@@ -1,5 +1,6 @@
 package com.example.myapplication.data
 
+import Montagem
 import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
@@ -73,6 +74,26 @@ class DatabaseConnection(context: Context) : SQLiteOpenHelper(context, DATABASE_
         }
     }
 
+    fun findAllPcs(db: SQLiteDatabase) : List<Computador>{
+        val cursor = db.rawQuery("SELECT * FROM Computadores", null)
+        var computerList = mutableListOf<Computador>()
+
+        while(cursor.moveToNext()) run {
+            var id = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
+            var cpu = cursor.getString(cursor.getColumnIndexOrThrow("cpu"))
+            var gpu = cursor.getString(cursor.getColumnIndexOrThrow("gpu"))
+            var ram = cursor.getFloat(cursor.getColumnIndexOrThrow("ram"))
+            var ssd = cursor.getFloat(cursor.getColumnIndexOrThrow("ssd"))
+            var valor = cursor.getFloat(cursor.getColumnIndexOrThrow("valor"))
+            var clienteCpf = cursor.getString(cursor.getColumnIndexOrThrow("clienteCpf"))
+
+            val computer = Computador(id, cpu, gpu, ram, ssd, valor, clienteCpf)
+            computerList.add(computer)
+        }
+
+        return computerList
+    }
+
     fun insertUser(cliente: Cliente, db: SQLiteDatabase){
         try {
             val contentValues = ContentValues().apply {
@@ -87,4 +108,40 @@ class DatabaseConnection(context: Context) : SQLiteOpenHelper(context, DATABASE_
             throw e
         }
     }
+
+    fun findAllUsers(db: SQLiteDatabase) : List<Cliente>{
+        val cursor = db.rawQuery("SELECT * FROM Clientes", null)
+        var userList = mutableListOf<Cliente>()
+
+        while(cursor.moveToNext()) run {
+            var cpf = cursor.getString(cursor.getColumnIndexOrThrow("cpf"))
+            var name = cursor.getString(cursor.getColumnIndexOrThrow("nome"))
+            var email = cursor.getString(cursor.getColumnIndexOrThrow("email"))
+            var telefone = cursor.getString(cursor.getColumnIndexOrThrow("telefone"))
+
+            val user = Cliente(cpf, name, email, telefone)
+            userList.add(user)
+        }
+
+        return userList
+    }
+
+    fun findAllBuilds(db: SQLiteDatabase) : List<Montagem>{
+        var buildList = mutableListOf<Montagem>()
+        return buildList
+    }
+
+    fun insertBuild(montagem: Montagem, db: SQLiteDatabase){
+        try {
+            val contentValues = ContentValues().apply {
+                put("modeloId", montagem.modeloId)
+                put("clienteCpf", montagem.clienteCpf)
+            }
+
+            db.insert("MONTAGENS", null, contentValues)
+        } catch (e: Exception){
+            throw e
+        }
+    }
+
 }

@@ -25,8 +25,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.myapplication.AppBar
 import com.example.myapplication.data.DatabaseConnection
@@ -63,6 +65,8 @@ fun PersonScreen(navController: NavHostController, databaseConnection: DatabaseC
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+            Text("Cadastro de usuário", fontWeight = FontWeight.Bold, fontSize = 30.sp)
+            Spacer(modifier = Modifier.height(20.dp))
             OutlinedTextField(
                 value = cpfValue,
                 onValueChange = { if(it.length <= 11 ) cpfValue = it },
@@ -93,7 +97,7 @@ fun PersonScreen(navController: NavHostController, databaseConnection: DatabaseC
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone)
             )
             Spacer(modifier = Modifier.height(10.dp))
-            Button(modifier = Modifier.padding(20.dp).fillMaxWidth(),
+            Button(modifier = Modifier.padding(50.dp, 15.dp).fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(Color(0xFF0076CE)),
                 onClick = {createUser()}) {
                 Text("Adicionar usuário")
