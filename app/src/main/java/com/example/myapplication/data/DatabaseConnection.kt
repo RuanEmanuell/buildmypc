@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
+import com.example.myapplication.model.Cliente
 import com.example.myapplication.model.Computador
 
 class DatabaseConnection(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
@@ -45,26 +46,45 @@ class DatabaseConnection(context: Context) : SQLiteOpenHelper(context, DATABASE_
                         "FOREIGN KEY(clienteCpf) REFERENCES CLIENTES(cpf))"
             )
         } catch (e: Exception) {
-            Log.e("DatabaseHelper", "Erro ao criar as tabelas: ${e.message}")
+            Log.e("DatabaseError", "Erro ao criar as tabelas: ${e.message}")
         }
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db.execSQL("DROP TABLE IF EXISTS CLIENTE")
-        db.execSQL("DROP TABLE IF EXISTS COMPUTADOR")
+        db.execSQL("DROP TABLE IF EXISTS CLIENTES")
+        db.execSQL("DROP TABLE IF EXISTS COMPUTADORES")
         onCreate(db)
     }
 
     fun insertPC(computador: Computador, db: SQLiteDatabase){
-        val contentValues = ContentValues().apply {
-            put("cpu", computador.cpu)
-            put("gpu", computador.gpu)
-            put("ram", computador.ram)
-            put("ssd", computador.ssd)
-            put("valor", computador.valor)
-            put("clienteCpf", computador.clienteCpf)
-        }
+        try {
+            val contentValues = ContentValues().apply {
+                put("cpu", computador.cpu)
+                put("gpu", computador.gpu)
+                put("ram", computador.ram)
+                put("ssd", computador.ssd)
+                put("valor", computador.valor)
+                put("clienteCpf", computador.clienteCpf)
+            }
 
-        db.insert("CLIENTE", null, contentValues)
+            db.insert("COMPUTADORES", null, contentValues)
+        } catch (e: Exception){
+            throw e
+        }
+    }
+
+    fun insertUser(cliente: Cliente, db: SQLiteDatabase){
+        try {
+            val contentValues = ContentValues().apply {
+                put("cpf", cliente.cpf)
+                put("nome", cliente.nome)
+                put("email", cliente.email)
+                put("telefone", cliente.telefone)
+            }
+
+            db.insert("CLIENTES", null, contentValues)
+        } catch (e: Exception){
+            throw e
+        }
     }
 }

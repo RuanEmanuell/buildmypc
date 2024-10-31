@@ -57,7 +57,7 @@ fun HomeScreen(navController: NavHostController) {
             )
             Spacer(modifier = Modifier.size(30.dp))
             MenuOption(
-                "build",
+                "person",
                 navController,
                 Color(0XFF72CC12),
                 Icons.Rounded.Person,

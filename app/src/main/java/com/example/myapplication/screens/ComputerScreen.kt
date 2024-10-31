@@ -1,6 +1,7 @@
 package com.example.myapplication.screens
 
 import android.database.sqlite.SQLiteDatabase
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -65,9 +66,15 @@ fun ComputerScreen(navController: NavHostController, databaseConnection: Databas
 
         val computer = Computador(cpu, gpu, ram, ssd, 3000.0F, "12345678910")
 
-        databaseConnection.insertPC(computer, db)
+        try {
+            databaseConnection.insertPC(computer, db)
+            Toast.makeText(context, "PC adicionado!", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception){
+            Log.e("DatabaseError", "Erro ao inserir computador: ${e.message}")
+        } finally {
+            navController.navigate("home")
+        }
 
-        Toast.makeText(context, "PC adicionado!", Toast.LENGTH_SHORT).show()
     }
 
     Scaffold(
