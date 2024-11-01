@@ -31,7 +31,6 @@ import com.example.myapplication.components.PcPart
 import com.example.myapplication.data.DatabaseConnection
 import com.example.myapplication.model.Computador
 
-
 @Composable
 fun ComputerScreen(navController: NavHostController, databaseConnection: DatabaseConnection, db: SQLiteDatabase) {
     val context = LocalContext.current
@@ -63,7 +62,7 @@ fun ComputerScreen(navController: NavHostController, databaseConnection: Databas
         val ram = ramList[selectedRamIndex.value].substring(0, ramList[selectedRamIndex.value].length - 2).toFloat()
         val ssd = ssdList[selectedSsdIndex.value].substring(0, ssdList[selectedSsdIndex.value].length - 2).toFloat()
 
-        val computer = Computador(0, cpu, gpu, ram, ssd, 3000.0F, "12345678910")
+        val computer = Computador(0, cpu, gpu, ram, ssd, 3000.0F)
 
         try {
             databaseConnection.insertPC(computer, db)

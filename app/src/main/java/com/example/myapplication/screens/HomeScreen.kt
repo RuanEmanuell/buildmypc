@@ -39,7 +39,7 @@ fun HomeScreen(navController: NavHostController) {
                 "Build PC")
             Spacer(modifier = Modifier.size(30.dp))
             MenuOption(
-                "build",
+                "search",
                 navController,
                 Color(0XFFEDB321),
                 Icons.Rounded.Search,

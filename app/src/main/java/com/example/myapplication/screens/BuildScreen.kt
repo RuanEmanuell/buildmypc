@@ -23,6 +23,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
@@ -414,7 +415,7 @@ fun BuildScreen(
                         colors = IconButtonDefaults.filledIconButtonColors(Color(0xFF0076CE)),
                         onClick = { if (page == 0) page += 1 else createBuild() }) {
                         Icon(
-                            Icons.AutoMirrored.Filled.ArrowForward,
+                            if(page == 0) Icons.AutoMirrored.Filled.ArrowForward else Icons.Filled.Add,
                             contentDescription = "Continuar",
                             tint = Color(0xFFFFFFFF),
                         )
