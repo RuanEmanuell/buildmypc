@@ -5,9 +5,11 @@ import android.database.sqlite.SQLiteDatabase
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,10 +21,18 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -52,11 +62,15 @@ import com.example.myapplication.model.Computador
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @Composable
-fun BuildScreen(navController: NavHostController, databaseConnection: DatabaseConnection, db: SQLiteDatabase) {
+fun BuildScreen(
+    navController: NavHostController,
+    databaseConnection: DatabaseConnection,
+    db: SQLiteDatabase
+) {
     val context = LocalContext.current
     val scrollState = rememberScrollState()
 
-    var expanded by remember { mutableStateOf(false)}
+    var expanded by remember { mutableStateOf(false) }
     var model by remember { mutableIntStateOf(0) }
     var userIndex by remember { mutableIntStateOf(0) }
     var computerList by remember { mutableStateOf(listOf<Computador>()) }
@@ -66,9 +80,13 @@ fun BuildScreen(navController: NavHostController, databaseConnection: DatabaseCo
     fun getAllPcs(): List<Computador> {
         val pcList = databaseConnection.findAllPcs(db)
 
-        if(pcList.isEmpty()){
+        if (pcList.isEmpty()) {
             navController.navigate("home")
-            Toast.makeText(context, "Adicione pelo menos um modelo de computador para fazer montagens!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                context,
+                "Adicione pelo menos um modelo de computador para fazer montagens!",
+                Toast.LENGTH_SHORT
+            ).show()
         }
         return pcList
     }
@@ -76,20 +94,24 @@ fun BuildScreen(navController: NavHostController, databaseConnection: DatabaseCo
     fun getAllUsers(): List<Cliente> {
         val usList = databaseConnection.findAllUsers(db)
 
-        if(usList.isEmpty()){
+        if (usList.isEmpty()) {
             navController.navigate("home")
-            Toast.makeText(context, "Cadastre pelo menos um usuário para fazer montagens!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(
+                context,
+                "Cadastre pelo menos um usuário para fazer montagens!",
+                Toast.LENGTH_SHORT
+            ).show()
         }
         return usList
     }
 
-    fun createBuild(){
+    fun createBuild() {
         val montagem = Montagem(0, model, userList[userIndex].cpf)
 
         try {
             databaseConnection.insertBuild(montagem, db)
             Toast.makeText(context, "Montagem de pc adicionada!", Toast.LENGTH_SHORT).show()
-        } catch (e: Exception){
+        } catch (e: Exception) {
             Log.e("DatabaseError", "Erro ao inserir montagem: ${e.message}")
         } finally {
             navController.navigate("home")
@@ -106,16 +128,21 @@ fun BuildScreen(navController: NavHostController, databaseConnection: DatabaseCo
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
         Column(
-            modifier = Modifier.fillMaxSize().padding(innerPadding).verticalScroll(state = scrollState),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+                .verticalScroll(state = scrollState),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Column (
-                modifier = Modifier.padding(20.dp).fillMaxSize()
+            Column(
+                modifier = Modifier
+                    .padding(20.dp)
+                    .fillMaxSize()
             ) {
-                if(computerList.isNotEmpty()) {
-                    if(page == 0) {
-                        Row{
+                if (computerList.isNotEmpty()) {
+                    if (page == 0) {
+                        Row {
                             Text(
                                 "Modelo do PC: ",
                                 fontSize = 20.sp,
@@ -129,7 +156,7 @@ fun BuildScreen(navController: NavHostController, databaseConnection: DatabaseCo
                         }
                         Spacer(modifier = Modifier.size(10.dp))
                         OutlinedButton(
-                            onClick = {expanded = true},
+                            onClick = { expanded = true },
                         ) {
                             Text(
                                 text = "Selecione um modelo",
@@ -138,12 +165,12 @@ fun BuildScreen(navController: NavHostController, databaseConnection: DatabaseCo
                         }
                         DropdownMenu(
                             expanded = expanded,
-                            onDismissRequest = {expanded = false}
+                            onDismissRequest = { expanded = false }
                         ) {
                             computerList.forEach { computer ->
                                 DropdownMenuItem(
                                     text = { Text(computer.toString()) },
-                                    onClick = {model = computer.id - 1; expanded = false}
+                                    onClick = { model = computer.id - 1; expanded = false }
                                 )
                             }
                         }
@@ -156,7 +183,10 @@ fun BuildScreen(navController: NavHostController, databaseConnection: DatabaseCo
                             )
                         ) {
                             Row(
-                                modifier = Modifier.fillMaxWidth().height(120.dp).padding(20.dp),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(120.dp)
+                                    .padding(20.dp),
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 Column(modifier = Modifier.width(200.dp)) {
@@ -193,7 +223,10 @@ fun BuildScreen(navController: NavHostController, databaseConnection: DatabaseCo
                             )
                         ) {
                             Row(
-                                modifier = Modifier.fillMaxWidth().height(120.dp).padding(20.dp),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(120.dp)
+                                    .padding(20.dp),
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 Column(modifier = Modifier.width(200.dp)) {
@@ -230,7 +263,10 @@ fun BuildScreen(navController: NavHostController, databaseConnection: DatabaseCo
                             )
                         ) {
                             Row(
-                                modifier = Modifier.fillMaxWidth().height(120.dp).padding(20.dp),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(120.dp)
+                                    .padding(20.dp),
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 Column(modifier = Modifier.width(200.dp)) {
@@ -263,7 +299,10 @@ fun BuildScreen(navController: NavHostController, databaseConnection: DatabaseCo
                             )
                         ) {
                             Row(
-                                modifier = Modifier.fillMaxWidth().height(120.dp).padding(20.dp),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(120.dp)
+                                    .padding(20.dp),
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 Column(modifier = Modifier.width(200.dp)) {
@@ -296,7 +335,7 @@ fun BuildScreen(navController: NavHostController, databaseConnection: DatabaseCo
                             modifier = Modifier.fillMaxWidth()
                         )
                     } else {
-                        Row{
+                        Row {
                             Text(
                                 "Usuário da montagem: ",
                                 fontSize = 20.sp,
@@ -310,7 +349,7 @@ fun BuildScreen(navController: NavHostController, databaseConnection: DatabaseCo
                         }
                         Spacer(modifier = Modifier.size(10.dp))
                         OutlinedButton(
-                            onClick = {expanded = true},
+                            onClick = { expanded = true },
                         ) {
                             Text(
                                 text = "Selecione um usuário",
@@ -319,34 +358,68 @@ fun BuildScreen(navController: NavHostController, databaseConnection: DatabaseCo
                         }
                         DropdownMenu(
                             expanded = expanded,
-                            onDismissRequest = {expanded = false}
+                            onDismissRequest = { expanded = false }
                         ) {
                             userList.forEach { user ->
                                 DropdownMenuItem(
                                     text = { Text(user.nome) },
-                                    onClick = {userIndex = userList.indexOfFirst{u -> u.cpf === user.cpf}; expanded = false}
+                                    onClick = {
+                                        userIndex =
+                                            userList.indexOfFirst { u -> u.cpf === user.cpf }; expanded =
+                                        false
+                                    }
                                 )
                             }
                         }
                         Spacer(modifier = Modifier.height(20.dp))
                         Column(
-                            modifier = Modifier.border(
-                                2.dp,
-                                Color.LightGray,
-                                RoundedCornerShape(50.dp)
-                            ).fillMaxWidth().padding(20.dp)
+                            modifier = Modifier
+                                .border(
+                                    2.dp,
+                                    Color.LightGray,
+                                    RoundedCornerShape(50.dp)
+                                )
+                                .fillMaxWidth()
+                                .padding(20.dp)
                         ) {
-                            Text("Nome completo: ${userList[userIndex].nome}", fontWeight = FontWeight.SemiBold, fontSize = 15.sp, modifier = Modifier.padding(5.dp))
-                            Text("CPF: ${userList[userIndex].cpf}", fontWeight = FontWeight.SemiBold, fontSize = 15.sp, modifier = Modifier.padding(5.dp))
-                            Text("Email: ${userList[userIndex].email}", fontWeight = FontWeight.SemiBold, fontSize = 15.sp, modifier = Modifier.padding(5.dp))
-                            Text("Telefone: ${userList[userIndex].telefone}", fontWeight = FontWeight.SemiBold, fontSize = 15.sp, modifier = Modifier.padding(5.dp))
+                            Text(
+                                "Nome completo: ${userList[userIndex].nome}",
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 15.sp,
+                                modifier = Modifier.padding(5.dp)
+                            )
+                            Text(
+                                "CPF: ${userList[userIndex].cpf}",
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 15.sp,
+                                modifier = Modifier.padding(5.dp)
+                            )
+                            Text(
+                                "Email: ${userList[userIndex].email}",
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 15.sp,
+                                modifier = Modifier.padding(5.dp)
+                            )
+                            Text(
+                                "Telefone: ${userList[userIndex].telefone}",
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 15.sp,
+                                modifier = Modifier.padding(5.dp)
+                            )
                         }
                     }
-                    Button(modifier = Modifier.padding(20.dp).fillMaxWidth(),
-                        colors = ButtonDefaults.buttonColors(Color(0xFF0076CE)),
-                        onClick = {if(page == 0 ) page += 1 else createBuild()}) {
-                        Text(if(page == 0) "->" else "Adicionar montagem de PC")
+
+                    FilledIconButton(
+                        modifier = Modifier.fillMaxWidth().padding(20.dp),
+                        colors = IconButtonDefaults.filledIconButtonColors(Color(0xFF0076CE)),
+                        onClick = { if (page == 0) page += 1 else createBuild() }) {
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowForward,
+                            contentDescription = "Continuar",
+                            tint = Color(0xFFFFFFFF),
+                        )
                     }
+
                 }
             }
 
