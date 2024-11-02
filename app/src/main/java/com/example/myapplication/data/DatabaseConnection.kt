@@ -73,7 +73,7 @@ class DatabaseConnection(context: Context) : SQLiteOpenHelper(context, DATABASE_
     }
 
     fun findAllPcs(db: SQLiteDatabase) : List<Computador>{
-        val cursor = db.rawQuery("SELECT * FROM Computadores", null)
+        val cursor = db.rawQuery("SELECT * FROM COMPUTADORES", null)
         var computerList = mutableListOf<Computador>()
 
         while(cursor.moveToNext()) run {
@@ -83,7 +83,6 @@ class DatabaseConnection(context: Context) : SQLiteOpenHelper(context, DATABASE_
             var ram = cursor.getFloat(cursor.getColumnIndexOrThrow("ram"))
             var ssd = cursor.getFloat(cursor.getColumnIndexOrThrow("ssd"))
             var valor = cursor.getFloat(cursor.getColumnIndexOrThrow("valor"))
-            var clienteCpf = cursor.getString(cursor.getColumnIndexOrThrow("clienteCpf"))
 
             val computer = Computador(id, cpu, gpu, ram, ssd, valor)
             computerList.add(computer)
@@ -109,7 +108,7 @@ class DatabaseConnection(context: Context) : SQLiteOpenHelper(context, DATABASE_
     }
 
     fun findAllUsers(db: SQLiteDatabase) : List<Cliente>{
-        val cursor = db.rawQuery("SELECT * FROM Clientes", null)
+        val cursor = db.rawQuery("SELECT * FROM CLIENTES", null)
         var userList = mutableListOf<Cliente>()
 
         while(cursor.moveToNext()) run {
