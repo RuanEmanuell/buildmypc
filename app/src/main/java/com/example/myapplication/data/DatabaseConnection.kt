@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.example.myapplication.model.Cliente
 import com.example.myapplication.model.Computador
+import com.example.myapplication.model.MontagemView
 
 class DatabaseConnection(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -33,9 +34,7 @@ class DatabaseConnection(context: Context) : SQLiteOpenHelper(context, DATABASE_
                         "gpu TEXT NOT NULL, " +
                         "ram REAL NOT NULL, " +
                         "ssd TEXT NOT NULL, " +
-                        "valor REAL NOT NULL, " +
-                        "clienteCpf TEXT, " +
-                        "FOREIGN KEY(clienteCpf) REFERENCES CLIENTES(cpf))"
+                        "valor REAL NOT NULL)"
             )
 
             db.execSQL(
@@ -65,7 +64,6 @@ class DatabaseConnection(context: Context) : SQLiteOpenHelper(context, DATABASE_
                 put("ram", computador.ram)
                 put("ssd", computador.ssd)
                 put("valor", computador.valor)
-                put("clienteCpf", computador.clienteCpf)
             }
 
             db.insert("COMPUTADORES", null, contentValues)
@@ -75,7 +73,7 @@ class DatabaseConnection(context: Context) : SQLiteOpenHelper(context, DATABASE_
     }
 
     fun findAllPcs(db: SQLiteDatabase) : List<Computador>{
-        val cursor = db.rawQuery("SELECT * FROM Computadores", null)
+        val cursor = db.rawQuery("SELECT * FROM COMPUTADORES", null)
         var computerList = mutableListOf<Computador>()
 
         while(cursor.moveToNext()) run {
@@ -85,12 +83,12 @@ class DatabaseConnection(context: Context) : SQLiteOpenHelper(context, DATABASE_
             var ram = cursor.getFloat(cursor.getColumnIndexOrThrow("ram"))
             var ssd = cursor.getFloat(cursor.getColumnIndexOrThrow("ssd"))
             var valor = cursor.getFloat(cursor.getColumnIndexOrThrow("valor"))
-            var clienteCpf = cursor.getString(cursor.getColumnIndexOrThrow("clienteCpf"))
 
-            val computer = Computador(id, cpu, gpu, ram, ssd, valor, clienteCpf)
+            val computer = Computador(id, cpu, gpu, ram, ssd, valor)
             computerList.add(computer)
         }
 
+        cursor.close()
         return computerList
     }
 
@@ -110,7 +108,7 @@ class DatabaseConnection(context: Context) : SQLiteOpenHelper(context, DATABASE_
     }
 
     fun findAllUsers(db: SQLiteDatabase) : List<Cliente>{
-        val cursor = db.rawQuery("SELECT * FROM Clientes", null)
+        val cursor = db.rawQuery("SELECT * FROM CLIENTES", null)
         var userList = mutableListOf<Cliente>()
 
         while(cursor.moveToNext()) run {
@@ -122,12 +120,42 @@ class DatabaseConnection(context: Context) : SQLiteOpenHelper(context, DATABASE_
             val user = Cliente(cpf, name, email, telefone)
             userList.add(user)
         }
+        cursor.close()
 
         return userList
     }
 
-    fun findAllBuilds(db: SQLiteDatabase) : List<Montagem>{
-        var buildList = mutableListOf<Montagem>()
+    fun findAllBuilds(db: SQLiteDatabase) : List<MontagemView>{
+        var cursor = db.rawQuery(
+            "SELECT m.id, pc.id as modeloId, pc.cpu, pc.gpu, pc.ram, pc.ssd, pc.valor, " +
+                    "c.cpf, c.nome, c.email, c.telefone " +
+                    "FROM MONTAGENS m " +
+                    "JOIN COMPUTADORES pc ON m.modeloId = pc.id " +
+                    "JOIN CLIENTES c ON m.clienteCPF = c.cpf", null
+        )
+
+        var buildList = mutableListOf<MontagemView>()
+
+        while (cursor.moveToNext()) run {
+            val id = cursor.getInt(cursor.getColumnIndexOrThrow("id"))
+            val modeloId = cursor.getInt(cursor.getColumnIndexOrThrow("modeloId"))
+            val modeloCpu = cursor.getString(cursor.getColumnIndexOrThrow("cpu"))
+            val modeloGpu = cursor.getString(cursor.getColumnIndexOrThrow("gpu"))
+            val modeloRam = cursor.getFloat(cursor.getColumnIndexOrThrow("ram"))
+            val modeloSsd = cursor.getFloat(cursor.getColumnIndexOrThrow("ssd"))
+            val modeloValor = cursor.getFloat(cursor.getColumnIndexOrThrow("valor"))
+            val clienteCpf = cursor.getString(cursor.getColumnIndexOrThrow("cpf"))
+            val clienteNome = cursor.getString(cursor.getColumnIndexOrThrow("nome"))
+            val clienteEmail = cursor.getString(cursor.getColumnIndexOrThrow("email"))
+            val clienteTelefone = cursor.getString(cursor.getColumnIndexOrThrow("telefone"))
+
+            val build = MontagemView( id, modeloId, modeloCpu, modeloGpu, modeloRam, modeloSsd,
+                modeloValor, clienteCpf, clienteNome, clienteEmail, clienteTelefone
+            )
+            buildList.add(build)
+        }
+
+        cursor.close()
         return buildList
     }
 
@@ -136,6 +164,8 @@ class DatabaseConnection(context: Context) : SQLiteOpenHelper(context, DATABASE_
             val contentValues = ContentValues().apply {
                 put("modeloId", montagem.modeloId)
                 put("clienteCpf", montagem.clienteCpf)
+
+                Log.e("a", montagem.modeloId.toString())
             }
 
             db.insert("MONTAGENS", null, contentValues)

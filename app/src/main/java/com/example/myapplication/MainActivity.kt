@@ -14,6 +14,7 @@ import com.example.myapplication.data.DatabaseConnection
 import com.example.myapplication.screens.BuildScreen
 import com.example.myapplication.screens.ComputerScreen
 import com.example.myapplication.screens.PersonScreen
+import com.example.myapplication.screens.SearchScreen
 
 
 class MainActivity : ComponentActivity() {
@@ -35,6 +36,7 @@ fun SetupNavHost(navController:NavHostController, databaseConnection: DatabaseCo
     NavHost(navController = navController, startDestination = "home"){
         composable("home") {HomeScreen(navController)}
         composable("build") { BuildScreen(navController, databaseConnection, db) }
+        composable("search") { SearchScreen(navController, databaseConnection, db) }
         composable("pc") { ComputerScreen(navController, databaseConnection, db) }
         composable("person") { PersonScreen(navController, databaseConnection, db) }
     }
