@@ -126,8 +126,8 @@ class DatabaseConnection(context: Context) : SQLiteOpenHelper(context, DATABASE_
     }
 
     fun findAllBuilds(db: SQLiteDatabase) : List<MontagemView>{
-        val cursor = db.rawQuery(
-            "SELECT m.id, m.modeloId, pc.cpu, pc.gpu, pc.ram, pc.ssd, pc.valor, " +
+        var cursor = db.rawQuery(
+            "SELECT m.id, pc.id as modeloId, pc.cpu, pc.gpu, pc.ram, pc.ssd, pc.valor, " +
                     "c.cpf, c.nome, c.email, c.telefone " +
                     "FROM MONTAGENS m " +
                     "JOIN COMPUTADORES pc ON m.modeloId = pc.id " +
@@ -155,8 +155,6 @@ class DatabaseConnection(context: Context) : SQLiteOpenHelper(context, DATABASE_
             buildList.add(build)
         }
 
-        Log.e("TAMANHO", buildList.size.toString())
-
         cursor.close()
         return buildList
     }
@@ -166,6 +164,8 @@ class DatabaseConnection(context: Context) : SQLiteOpenHelper(context, DATABASE_
             val contentValues = ContentValues().apply {
                 put("modeloId", montagem.modeloId)
                 put("clienteCpf", montagem.clienteCpf)
+
+                Log.e("a", montagem.modeloId.toString())
             }
 
             db.insert("MONTAGENS", null, contentValues)

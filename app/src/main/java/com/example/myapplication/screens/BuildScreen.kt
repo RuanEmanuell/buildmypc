@@ -107,7 +107,7 @@ fun BuildScreen(
     }
 
     fun createBuild() {
-        val montagem = Montagem(0, model, userList[userIndex].cpf)
+        val montagem = Montagem(0, model + 1, userList[userIndex].cpf)
 
         try {
             databaseConnection.insertBuild(montagem, db)
@@ -150,7 +150,7 @@ fun BuildScreen(
                                 fontWeight = FontWeight.SemiBold
                             )
                             Text(
-                                "Modelo $model",
+                                "Modelo ${model + 1}",
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.SemiBold
                             )

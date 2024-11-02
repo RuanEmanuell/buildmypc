@@ -12,18 +12,25 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.myapplication.AppBar
 import com.example.myapplication.R
@@ -45,6 +52,8 @@ fun ComputerScreen(navController: NavHostController, databaseConnection: Databas
     var selectedRamIndex = remember { mutableStateOf(0)}
     var selectedSsdIndex = remember { mutableStateOf(0)}
 
+    var modelValue by remember { mutableStateOf("") }
+
     val cpuList = listOf("Intel Celeron", "Intel Pentium", "Intel Core i3", "Intel Core i5",
         "Intel Core i7", "Intel Core i9", "AMD Athlon", "AMD Ryzen 3", "AMD Ryzen 5", "AMD Ryzen 7",
         "AMD Ryzen 9")
@@ -62,7 +71,7 @@ fun ComputerScreen(navController: NavHostController, databaseConnection: Databas
         val ram = ramList[selectedRamIndex.value].substring(0, ramList[selectedRamIndex.value].length - 2).toFloat()
         val ssd = ssdList[selectedSsdIndex.value].substring(0, ssdList[selectedSsdIndex.value].length - 2).toFloat()
 
-        val computer = Computador(0, cpu, gpu, ram, ssd, 3000.0F)
+        val computer = Computador(0, cpu, gpu, ram, ssd, modelValue.toFloat())
 
         try {
             databaseConnection.insertPC(computer, db)
@@ -102,6 +111,16 @@ fun ComputerScreen(navController: NavHostController, databaseConnection: Databas
                 PcPart(ssdList, selectedSsdIndex, ssdDropdownExpanded, "SSD:",
                     "Selecione um armazenamento de SSD",
                     R.drawable.ssd)
+
+                Text("Valor do modelo de PC:", fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                OutlinedTextField(
+                    value = modelValue,
+                    onValueChange = { modelValue = it },
+                    label = { Text("Digite o valor do modelo de PC ") },
+                    maxLines = 1,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    modifier = Modifier.fillMaxWidth()
+                )
 
                 Button(modifier = Modifier.padding(20.dp).fillMaxWidth(),
                         colors = ButtonDefaults.buttonColors(Color(0xFF0076CE)),

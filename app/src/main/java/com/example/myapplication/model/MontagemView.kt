@@ -5,4 +5,7 @@ class MontagemView(var id: Int, var modeloId: Int, var modeloCpu : String, var m
                    var clienteCpf: String,  var clienteNome: String,  var clienteEmail: String,
                    var clienteTelefone: String) {
 
+    fun toStringModelo(): String {
+        return "$modeloCpu / $modeloGpu / ${modeloRam}GB / ${modeloSsd}GB"
+    }
 }
