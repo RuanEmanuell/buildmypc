@@ -66,20 +66,28 @@ fun ComputerScreen(navController: NavHostController, databaseConnection: Databas
     val ssdList = listOf("120GB", "240GB", "480GB", "960GB")
 
     fun createPC(){
-        val cpu = cpuList[selectedCpuIndex.value]
-        val gpu = gpuList[selectedGpuIndex.value]
-        val ram = ramList[selectedRamIndex.value].substring(0, ramList[selectedRamIndex.value].length - 2).toFloat()
-        val ssd = ssdList[selectedSsdIndex.value].substring(0, ssdList[selectedSsdIndex.value].length - 2).toFloat()
+        if (modelValue == "") Toast.makeText(context, "Adicione o valor do modelo!", Toast.LENGTH_SHORT).show() else {
+            val cpu = cpuList[selectedCpuIndex.value]
+            val gpu = gpuList[selectedGpuIndex.value]
+            val ram = ramList[selectedRamIndex.value].substring(
+                0,
+                ramList[selectedRamIndex.value].length - 2
+            ).toFloat()
+            val ssd = ssdList[selectedSsdIndex.value].substring(
+                0,
+                ssdList[selectedSsdIndex.value].length - 2
+            ).toFloat()
 
-        val computer = Computador(0, cpu, gpu, ram, ssd, modelValue.toFloat())
+            val computer = Computador(0, cpu, gpu, ram, ssd, modelValue.replace(",", "").toFloat())
 
-        try {
-            databaseConnection.insertPC(computer, db)
-            Toast.makeText(context, "PC adicionado!", Toast.LENGTH_SHORT).show()
-        } catch (e: Exception){
-            Log.e("DatabaseError", "Erro ao inserir computador: ${e.message}")
-        } finally {
-            navController.navigate("home")
+            try {
+                databaseConnection.insertPC(computer, db)
+                Toast.makeText(context, "PC adicionado!", Toast.LENGTH_SHORT).show()
+            } catch (e: Exception) {
+                Log.e("DatabaseError", "Erro ao inserir computador: ${e.message}")
+            } finally {
+                navController.navigate("home")
+            }
         }
 
     }

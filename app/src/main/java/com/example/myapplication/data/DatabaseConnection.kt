@@ -164,11 +164,17 @@ class DatabaseConnection(context: Context) : SQLiteOpenHelper(context, DATABASE_
             val contentValues = ContentValues().apply {
                 put("modeloId", montagem.modeloId)
                 put("clienteCpf", montagem.clienteCpf)
-
-                Log.e("a", montagem.modeloId.toString())
             }
 
             db.insert("MONTAGENS", null, contentValues)
+        } catch (e: Exception){
+            throw e
+        }
+    }
+
+    fun deleteBuild(buildId : Int, db: SQLiteDatabase){
+        try {
+            db.delete("MONTAGENS", "id = ?", arrayOf(buildId.toString()))
         } catch (e: Exception){
             throw e
         }

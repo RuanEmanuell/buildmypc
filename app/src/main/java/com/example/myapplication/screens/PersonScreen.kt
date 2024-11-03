@@ -44,16 +44,18 @@ fun PersonScreen(navController: NavHostController, databaseConnection: DatabaseC
     var cellphoneValue by remember { mutableStateOf("") }
 
     fun createUser(){
-        val cliente = Cliente(cpfValue, nameValue, emailValue, cellphoneValue)
+        if(cpfValue != "" && nameValue != "" && emailValue != "" && cellphoneValue != "") {
+            val cliente = Cliente(cpfValue, nameValue, emailValue, cellphoneValue)
 
-        try {
-            databaseConnection.insertUser(cliente, db)
-            Toast.makeText(context, "Usuário adicionado!", Toast.LENGTH_SHORT).show()
-        } catch (e: Exception){
-            Log.e("DatabaseError", "Erro ao inserir usuário: ${e.message}")
-        } finally {
-            navController.navigate("home")
-        }
+            try {
+                databaseConnection.insertUser(cliente, db)
+                Toast.makeText(context, "Usuário adicionado!", Toast.LENGTH_SHORT).show()
+            } catch (e: Exception) {
+                Log.e("DatabaseError", "Erro ao inserir usuário: ${e.message}")
+            } finally {
+                navController.navigate("home")
+            }
+        } else Toast.makeText(context, "Todos os campos devem estar preenchidos!", Toast.LENGTH_SHORT).show()
     }
 
     Scaffold(
