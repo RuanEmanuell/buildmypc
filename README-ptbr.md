@@ -4,6 +4,19 @@
     
 ### O que é isso? 🤔
 Essa é uma aplicação projetada para ajudar os usuários a configurar e gerenciar montagens personalizadas de computadores de forma prática. Com esse aplicativo, você pode selecionar diversos componentes de hardware, salvar montagens e editá-las conforme necessário.
+
+## Funcionalidades
+    Cadastro de Usuários: Crie uma conta para começar a montar e salvar modelos de PCs.
+    Seleção de Componentes: Escolha entre várias peças de PC:
+        Placas de Vídeo: Opções incluem modelos da AMD e NVIDIA.
+        Processadores: Selecione entre CPUs da Intel e Ryzen.
+        Memória e Armazenamento: Diversos tipos de RAM e SSD disponíveis para seleção.
+    Atribuição de Valores: Defina valores específicos para cada peça, permitindo uma visão clara dos custos totais da montagem.
+    Gestão de Montagens:
+        Criar Montagem: Monte um modelo completo de PC com os componentes selecionados.
+        Visualizar Montagens: Acesse e revise todas as montagens salvas.
+        Editar Montagem: Modifique montagens existentes atualizando componentes ou preços.
+        Excluir Montagem: Remova qualquer montagem das suas configurações salvas.
     
 ### Onde posso acessá-lo? 🖥
 Você precisa baixar os arquivos desse repositório.
